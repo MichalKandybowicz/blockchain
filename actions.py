@@ -56,7 +56,14 @@ def specific_block(blockchain):
         try:
             block_id = int(block_id) - 1
             if (0 <= block_id) and (block_id <= len(blockchain.chain)):
-                print(blockchain.get_specific_block(block_id=block_id))
+                block = blockchain.get_specific_block(block_id=block_id)
+                print("BlockID:", block['index'], '\n',
+                      "Proof:", block['proof'], '\n',
+                      "Previous hash:", block['previous_hash'], '\n',)
+
+                for i in range(len(block['body'])):
+                    print("element id:", i, '-',  block['body'][i])
+
         except ValueError:
             try:
                 if block_id == 'q':
@@ -164,7 +171,10 @@ def load_file():
 
     :return: blockchain form file
     """
+
     files_list = get_data_pickle_files()
+    if len(files_list) == 0:
+        return print("\ndata directory is empty\n")
 
     print("\n")
     for i in range(len(files_list)):
